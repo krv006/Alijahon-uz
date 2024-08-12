@@ -3,9 +3,8 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.models import AbstractUser
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Model, DateTimeField, CharField, ImageField, SlugField, TextField, FloatField, ForeignKey, \
-    CASCADE, IntegerField, TextChoices, SET_NULL, BooleanField, PositiveIntegerField, Index
-from django.utils.functional import cached_property
+from django.db.models import Model, DateTimeField, CharField, ImageField, SlugField, FloatField, ForeignKey, \
+    CASCADE, IntegerField, TextChoices, SET_NULL, PositiveIntegerField, Index
 from django.utils.text import slugify
 from django_resized import ResizedImageField
 from mptt.fields import TreeForeignKey
@@ -100,9 +99,6 @@ class Category(BaseSlugModel, MPTTModel):
     def __str__(self):
         return self.name
 
-
-# class SiteSettings(Model):
-#     name = CharField(max_length=255)
 
 class Product(BaseSlugModel, BaseModel):
     description = RichTextUploadingField()

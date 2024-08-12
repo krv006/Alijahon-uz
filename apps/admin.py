@@ -1,4 +1,3 @@
-
 from django.contrib import admin
 from django.contrib.admin import ModelAdmin, StackedInline
 from django.utils.html import format_html
@@ -13,9 +12,8 @@ admin.site.register(User)
 
 @admin.register(Category)
 class CategoryAdmin(DraggableMPTTAdmin):
-
-
     exclude = 'slug',
+
     # list_display = 'id', 'name', 'image_photo', 'product_count'
 
     @admin.display(empty_value="?")
@@ -52,11 +50,3 @@ class ProductAdmin(ModelAdmin):
 @admin.register(SiteSettings)
 class SiteSettingsModelAdmin(ModelAdmin):
     pass
-
-
-# plan:
-    # module 6 django jinja
-    # module 7 django jinja
-    # module 8 drf django
-    # module 9 drf django
-    # module 10 DEVOPS , DOCKER

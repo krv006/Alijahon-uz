@@ -1,0 +1,83 @@
+{% extends 'apps/include_base/base.html' %}
+{% load humanize %}
+{% load thumbnail %}
+
+{% block body %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="container" id="wishlist">
+                <div class="content_grid">
+                    <div class="row">
+                        {% for wishlist in wishlists %}
+                            <div class="mb-4 col-md-6 col-lg-4">
+                                <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
+                                    <div class="overflow-hidden">
+                                        <div class="position-relative rounded-top overflow-hidden">
+                                            {% thumbnail wishlist.product.first_image.image "250x250" format="PNG" as im %}
+                                                <a class="d-block"
+
+                                                   href="{% url 'product_detail' wishlist.product.slug %}"><img
+                                                        class="img-fluid rounded-top"
+                                                        src="{{ im.url }}"
+                                                        alt=""/>
+                                                </a>
+                                            {% endthumbnail %}
+                                        </div>
+                                        <div class="p-3">
+                                            <h5 class="fs-0">
+                                                <a class="text-dark"
+                                                   href="{% url 'product_detail' wishlist.product.slug %}">{{ wishlist.product.name }}</a>
+                                            </h5>
+                                            {#                                            <p class="fs--1 mb-3"><a class="text-500" href="{% url 'category_trade' wishlist.product.category.slug %}">{{ wishlist.product.category.name }}</a></p>#}
+{#                                            <p class="fs--1 mb-3"><a class="text-500"#}
+{#                                                                     href="{% url 'category_trade' %}?slug={{ wishlist.product.category.slug }}">{{ wishlist.product.category.name }}</a>#}
+{#                                            </p>#}
+                                            <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">
+                                                ${{ wishlist.product.price|floatformat:"0"|intcomma }}</h5>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-between-center px-3">
+                                        <div>
+                                            <a class="btn btn-sm btn-falcon-default mt-2" style="width: 200px;"
+                                               href="{% url 'product_detail' wishlist.product.slug %}"
+                                               data-bs-toggle="tooltip"
+                                               data-bs-placement="top" title=""
+                                               data-bs-original-title="Add to Cart" aria-label="Add to Cart">
+                                                Buyurtma qilish
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <div class="card-footer bg-light d-flex justify-content-center">
+                        <div>
+                            {% if page_obj.has_previous %}
+                                <a class="btn btn-falcon-default btn-sm me-2" type="button"
+                                   data-bs-toggle="tooltip" data-bs-placement="top" title="Prev"
+                                   href="?page={{ page_obj.previous_page_number }} "><span
+                                        class="fas fa-chevron-left"></span></a>
+                            {% endif %}
+                            <a class="btn btn-sm btn-falcon-default text-primary me-2"
+                               href="?page={{ page_obj.number }}">{{ page_obj.number }}</a>
+
+                            {% if page_obj.number != page_obj.paginator.num_pages %}
+                                <a class="btn btn-sm btn-falcon-default me-2"
+                                   href="?page={{ page_obj.paginator.num_pages }}">{{ page_obj.paginator.num_pages }}</a>
+                            {% endif %}
+                            {% if page_obj.has_next %}
+                                <a class="btn btn-falcon-default btn-sm" data-bs-toggle="tooltip"
+                                   data-bs-placement="top" title="Next"
+                                   href="?page={{ page_obj.next_page_number }}"><span
+                                        class="fas fa-chevron-right">  </span>
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

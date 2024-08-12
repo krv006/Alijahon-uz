@@ -1,0 +1,74 @@
+{% extends 'apps/include_base/base.html' %}
+
+{% block body %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="container">
+                <div class="container border-bottom-4">
+                    <div class="header_tab_menu">
+                        <div class="header_menu" style="overflow: auto">
+                            <a href="/admin_page/stats?period=today" class="btn btn-default">Bugun</a>
+                            <a href="/admin_page/stats?period=last_day" class="btn btn-default">Kechagi</a>
+                            <a href="/admin_page/stats?period=wekly" class="btn btn-default">Haftalik</a>
+                            <a href="/admin_page/stats?period=monthly" class="btn btn-default">Oylik</a>
+                            <a href="/admin_page/stats?period=all" class="btn btn-default">Hammasi</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="text-center">
+
+                        <tr>
+                            <th scope="col">Oqim</th>
+                            <th scope="col">Mahsulot</th>
+                            <th scope="col">Tashrif</th>
+                            <th scope="col">Yangi</th>
+                            <th scope="col">Dastavkaga tayyor</th>
+                            <th scope="col">Yetkazilmoqda</th>
+                            <th scope="col">Yetqazib berildi</th>
+                            <th scope="col">Telefon ko'tarmadi</th>
+                            <th scope="col">Bekor qilindi</th>
+                            <th scope="col">Arxivlandi</th>
+                        </tr>
+                        <tr class="bg-info">
+                            <td> JAMI</td>
+                            <td></td>
+                            <td> {{ all_count }}</td>
+                            <td> {{ all_new }}</td>
+                            <td> {{ all_ready }}</td>
+                            <td> {{ all_deliver }}</td>
+                            <td> {{ all_delivered }}</td>
+                            <td> {{ all_cant_phone }}</td>
+                            <td> {{ all_canceled }}</td>
+                            <td> {{ all_archived }}</td>
+                            
+                        </tr>
+                        </thead>
+
+                        <tbody class="text-center">
+                        {% for stream in streams %}
+                        	<tr>
+                            <th>{{ stream.name }}</th>
+                            <th>{{ stream.product__name }}</th>
+                            <th>{{ stream.count }}</th>
+                            <td>{{ stream.new_count }}</td>
+                            <td>{{ stream.ready_count }}</td>
+                            <td>{{ stream.deliver_count }}</td>
+                            <td>{{ stream.delivered_count }}</td>
+                            <td>{{ stream.cant_phone_count }}</td>
+                            <td>{{ stream.canceled_count }}</td>
+                            <td>{{ stream.archived_count }}</td>
+
+                        </tr>
+                        {% endfor %}
+                        
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

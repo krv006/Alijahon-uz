@@ -1,0 +1,87 @@
+{% extends 'apps/include_base/base.html' %}
+{% load mathfilters %}
+{% load thumbnail %}
+{% load humanize %}
+
+
+{% block body %}
+    <div class="card-body bg-light px   -1 py-0">
+        <div class="row g-0 text-center fs--1">
+
+            <div class="header_menu active mt-4 mb-4" style="overflow: auto">
+
+                <a href="{% url 'product_list' %}" class="btn btn-default {% if not request.GET.category %} active {% endif %}" >
+                    Barchasi
+                </a>
+                {% for category in categories %}
+                    <a href="{% url 'product_list' %}?category={{ category.slug }}" class="btn btn-default {% if request.GET.category and request.GET.category == category.slug %} active {% endif %}">
+                        {{ category.name }}
+                    </a>
+
+                {% endfor %}
+            </div>
+
+        </div>
+    </div>
+    <div class="card mb-3">
+        <div class="card-body">
+            <div class="row">
+                {% for product in products %}
+                    <div class="mb-4 col-md-6 col-lg-4">
+                        <div class="border rounded-1 h-100 d-flex flex-column justify-content-between pb-3">
+                            <div class="overflow-hidden">
+                                <div class="position-relative rounded-top overflow-hidden">
+                                    {% thumbnail product.images.first.image "366x250" format="PNG" as im %}
+                                        <a class="d-block"
+                                           href="{% url 'product_detail' product.slug %}"><img
+                                                class="img-fluid rounded-top" src="{{ im.url }}"
+                                                alt=""/></a>
+                                    {% endthumbnail %}
+                                    <span
+                                            class="badge rounded-pill bg-success position-absolute mt-2 me-2 z-index-2 top-0 end-0">New</span>
+                                </div>
+                                <div class="p-3">
+
+                                    <p class="fs--1 mb-3"><a class="text-500" href="#">Computer &amp; Accessories</a>
+                                    </p>
+                                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-3">{{ product.price|floatformat:"0"|intcomma }}</h5>
+
+
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-between-center px-3">
+
+                                <div><a class="wish-btn btn btn-sm btn-falcon-default me-2 {% if product.slug in request.user.wishlist_all %}bg-danger{% endif %}" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" 
+                                        data-post-id="{{ product.slug }}"
+                                        title="Add to Wish List"><span
+                                        class="far fa-heart"></span></a><a
+                                        class="btn btn-sm btn-falcon-default" href="{% url 'product_detail' product.slug %}" data-bs-toggle="tooltip"
+                                        data-bs-placement="top" title="Add to Cart"><span
+                                        class="fas fa-cart-plus"></span></a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+
+
+            </div>
+        </div>
+        <div class="card-footer bg-light d-flex justify-content-center">
+            <div>
+                <a class="btn btn-falcon-default btn-sm me-2"
+                   href="{% if page_obj.has_previous %} ?page={{ page_obj.previous_page_number }} {% endif %}"
+                   type="button" {% if not page_obj.has_previous %} disabled="disabled" {% endif %}
+                   data-bs-toggle="tooltip" data-bs-placement="top" title="Prev"><span
+                        class="fas fa-chevron-left"></span></a>
+                <a class="btn btn-sm btn-falcon-default text-primary me-2" href="#">{{ page_obj.number }}</a>
+                <a class="btn btn-falcon-default btn-sm" data-bs-toggle="tooltip"
+                   href="{% if page_obj.has_next %} ?page={{ page_obj.next_page_number }} {% endif %}" type="button"
+                        {% if not page_obj.has_next %} disabled="disabled" {% endif %}
+                   data-bs-placement="top" title="Next"><span class="fas fa-chevron-right"></span></a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

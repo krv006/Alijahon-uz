@@ -1,0 +1,180 @@
+{% extends 'apps/include_base/base.html' %}
+{% load thumbnail %}
+
+{% block body %}
+    <div class="card mb-3">
+        <div class="card-body">
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Oqim yaratish</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="{% url 'stream-form' %}" class="form-class">
+                                {% csrf_token %}
+                                <input name="product" type="hidden" id="hidden_product" value="test">
+                                <input name="owner" type="hidden" id="hidden_product" value="{{ request.user.pk }}">
+
+                                Oqim nomi <input type="text" name="name" class="form-control" placeholder="Nomi"
+                                                 mt-2="Oqim uchun nom kiriting" required="" id="id_title">
+
+                                Chegirma <input type="text" name="discount" class="form-control" placeholder="Chegirma"
+                                                mt-2="Chegirma miqdori: {{ product.benefit }} so'mgacha"
+                                                >
+                               
+
+                                <input type="submit" class="btn btn-primary mt-4" value="Oqim yaratish">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container">
+                <br>
+                <br>
+                <h3 class="text-center"> Hozirda sotuvda bor <br> mahsulotlar </h3>
+                <br>
+
+                <div class="container border-bottom-4">
+                    <div class="header_tab_menu">
+                        <div class="card-body bg-white px   -1 py-0">
+                            <div class="row g-0 text-center fs--1">
+                                <div class="header_menu active mt-4 mb-4" style="overflow: auto">
+
+                                    <a href="{% url 'market' %}"
+                                       class="btn btn-default {% if not request.GET.category %} active {% endif %}">
+                                        Barchasi
+                                    </a>
+                                    {% for category in categories %}
+                                        <a href="{% url 'market' %}?category={{ category.slug }}"
+                                           class="btn btn-default {% if request.GET.category and request.GET.category == category.slug %} active {% endif %}">
+                                            {{ category.name }}
+                                        </a>
+
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+                        </div>
+{#                        <div class="search-box" style="width: 100%;">#}
+{#                            <form action="/admin_page/market/" method="GET" class="position-relative"#}
+{#                                  style="width: 100%" data-bs-display="static" autocomplete="off">#}
+{#                                <input type="hidden" name="csrfmiddlewaretoken"#}
+{#                                       value="t6JkhhQ7ugfWKvXkFPCvbyy5sZaZJ77dw5ScO4SWNm5EXxw5kfUyi1a49Ak1wm7h">#}
+{#                                <input id="search-input" name="q" class="form-control search-input" type="search"#}
+{#                                       placeholder="Qidiruv..." aria-label="Search">#}
+{#                                <svg class="svg-inline--fa fa-search fa-w-16 search-box-icon" aria-hidden="true"#}
+{#                                     focusable="false" data-prefix="fas" data-icon="search" role="img"#}
+{#                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">#}
+{#                                    <path fill="currentColor"#}
+{#                                          d="M505 442.7L405.3 343c-4.5-4.5-10.6-7-17-7H372c27.6-35.3 44-79.7 44-128C416 93.1 322.9 0 208 0S0 93.1 0 208s93.1 208 208 208c48.3 0 92.7-16.4 128-44v16.3c0 6.4 2.5 12.5 7 17l99.7 99.7c9.4 9.4 24.6 9.4 33.9 0l28.3-28.3c9.4-9.4 9.4-24.6.1-34zM208 336c-70.7 0-128-57.2-128-128 0-70.7 57.2-128 128-128 70.7 0 128 57.2 128 128 0 70.7-57.2 128-128 128z"></path>#}
+{#                                </svg>#}
+{#                                <!-- <span class="fas fa-search search-box-icon" aria-hidden="true"></span> Font Awesome fontawesome.com -->#}
+{#                            </form>#}
+{#                        </div>#}
+                    </div>
+                </div>
+
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-sm-4 p-2">
+                            <div class="card">
+                                {% thumbnail product.images.first.image "366x200" format="PNG" as im %}
+                                    <a class="d-block"
+                                       href="{% url 'product_detail' product.slug %}"><img
+                                            class="img-fluid rounded-top" src="{{ im.url }}"
+                                            alt=""/></a>
+                                {% endthumbnail %}
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <a href="{% url 'product_detail' product.slug %}" target="_blank">
+                                            {{ product.name }}
+                                        </a>
+                                    </h5>
+                                    <p class="text-muted"> {{ product.price }} so'm </p>
+                                </div>
+
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">To'lov: <strong>{{ product.for_stream_price }} </strong>
+                                    </li>
+
+                                    <li class="list-group-item">Zaxirada: <strong> {{ product.quantity }} ta </strong>
+                                    </li>
+                                </ul>
+                                <a href="https://t.me/alijahon_uz_Internet_magazin/{{ product.tg_id }}"
+                                   class="btn bg-danger text-white mt-2 mb-2">Reklama Posti</a>
+                                <button class="btn btn-primary btn_open_modal" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" name="{{ product.id }}">
+                                    Oqim yaratish
+                                </button>
+                                <a href="{% url 'stream-detail' product.slug %}" class="btn bg-danger text-white mt-2">Batafsil</a>
+                            </div>
+                        </div>
+
+                    {% endfor %}
+
+
+
+
+
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination">
+
+
+                            <li class="page-item"><a class="page-link " href="?page=1">1</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=2">2</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=3">3</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=4">4</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=5">5</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=6">6</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=7">7</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=8">8</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=9">9</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=10">10</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=11">11</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=12">12</a></li>
+
+
+                            <li class="page-item"><a class="page-link " href="?page=13">13</a></li>
+
+
+                            <li class="page-item"><a class="page-link" href="?page=2">Keyingisi</a></li>
+
+
+                        </ul>
+                    </nav>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

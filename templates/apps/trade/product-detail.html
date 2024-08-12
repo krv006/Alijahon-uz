@@ -1,0 +1,61 @@
+{% extends 'apps/include_base/base.html' %}
+{% load humanize %}
+
+{% block body %}
+    <div class="card mb-3 mt-2">
+        <div class="card-body">
+            <div class="col-lg-8 swiper-container">
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-2">
+                        <label class="form-label" for="formGroupNameInput">Ism:</label>
+                        <input class="form-control" name="full_name" id="formGroupNameInput" type="text">
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label" for="formGroupEmailInput">Telefon nomer:</label>
+                        <input class="form-control" id="phone-mask" required="" name="phone_number" type="text">
+                    </div>
+                    <input type="hidden" name="test" value="10">
+
+                    <input type="hidden" id="phone-mask" name="product" style='width: 10px' value="{{ product.id }}">
+
+                    <span style="padding-bottom: 100px;">
+
+
+
+                </span>
+                    <div class="d-grid gap-2 col-6 mx-auto" style="margin-top: 20px;">
+                        <button class="btn btn-primary" type="submit">Buyurtma berish</button>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 swiper-container" style="margin-top: 20px;">
+
+
+                    <img src="{{ product.first_image.image.url }}" alt="" class="img-main mb-3 img-fluid">
+
+
+                    <div class="row mb-5 thumbs">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 swiper-container">
+                <h5>
+                   {{ product.name }}
+                </h5>
+                <p class="fs--1">
+                </p>
+                <p>{{ product.description|safe }}</p>
+                <h4 class="d-flex align-items-center">
+                <span class="text-warning me-2">
+                {{ product.price|floatformat:0|intcomma }} so'm
+                </span>
+                </h4>
+            </div>
+        </div>
+    </div>
+{% endblock %}

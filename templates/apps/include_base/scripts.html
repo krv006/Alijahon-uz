@@ -1,0 +1,71 @@
+{# ----------------------- Phone number script ----------------------- #}
+<script src="https://unpkg.com/imask"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+
+<script>
+        $('#phone-mask').inputmask({
+            "mask": "+\\9\\98(99) 999-99-99"
+        });
+        $('#messages-modal').modal('show');
+</script>
+
+{#--------------------------- wishlist -------------------------------------#}
+<script src="https://unpkg.com/imask"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://rawgit.com/RobinHerbots/jquery.inputmask/3.x/dist/jquery.inputmask.bundle.js"></script>
+<script>
+    $(document).ready(function () {
+        var cartCount = parseInt($('#cart-icon').text()) || 0;
+
+        function updateCartCount() {
+            $('#cart-icon').text(cartCount);
+        }
+
+        $('.wish-btn').click(function () {
+            console.log("hi")
+            var postId = $(this).data('post-id');
+            var button = $(this); // Reference to the button clicked
+            var csrftoken = getCookie('csrftoken');
+
+            $.ajax({
+                type: 'POST',
+                url: '/product/liked/' + postId,
+                dataType: 'json',
+                beforeSend: function (xhr, settings) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                },
+                success: function (response) {
+                    if (response.save > 0) {
+                        button.removeClass('bg-white');
+                        button.addClass('bg-danger');
+                        cartCount++;
+                        // Update cart icon
+                        updateCartCount();
+                    } else {
+                        cartCount--;
+                        // Update cart icon
+                        updateCartCount();
+                        button.removeClass('bg-danger');
+                        button.addClass('bg-white');
+                    }
+                    // Add the 'liked' class to change color
+                },
+
+                error: function (xhr, status, error) {
+                    console.error(xhr.responseText);
+                }
+            });
+        });
+        updateCartCount();
+    });
+</script>
+
+
+{# stream form #}
+<script>
+        $('.btn_open_modal').on('click', function () {
+            let product_id = $(this).attr('name');
+            $('#hidden_product').val(product_id);
+        })
+</script>

@@ -1,0 +1,49 @@
+{% extends 'apps/include_base/base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block body %}
+    <div class="container text-center pb-5 card" style="margin-top: 80px;">
+        <div class="card-body" style="margin-top: 30px">
+
+        </div>
+
+        <img style="height: 100px; width:100px; margin-left:45%; margin-top: 30px" src="{% static 'apps/app/img.png' %}" alt="Green Success Image">
+        <h3 class="mt-4">Arizangiz qabul qilindi!</h3>
+        <p>Batafsil ma'lumot uchun operator yaqin vaqt ichida siz bilan aloqaga chiqadi.</p>
+        <p>Iltimos, telefoningiz yoqilgan holda bo'lsin!</p>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Mahsulot</th>
+                <th scope="col">Summa</th>
+                <th scope="col">Soni</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="col">{{ form.product.name }}</th>
+                <th scope="col">{{ form.product.price }}</th>
+                <th scope="col">1</th>
+            </tr>
+
+                <tr>
+                    <th scope="col">Yetkazib berish</th>
+                    <th scope="col">{{ form.deliver_price }}</th>
+                </tr>
+
+
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col-md-6">
+                <h5>Jami</h5>
+                <h5>{{ form.product.price|add:form.deliver_price|intcomma }} so'm</h5>
+            </div>
+            <div class="col-md-6 mt-3">
+                <a href="/" class="btn btn-primary w-50">Boshqa mahsulotlar</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

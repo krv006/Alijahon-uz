@@ -12,7 +12,6 @@ from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
 
-
 class CustomUserManager(BaseUserManager):
     def create_user(self, phone_number, password=None, **extra_fields):
         if not phone_number:
@@ -140,7 +139,7 @@ class Order(BaseModel):
     quantity = IntegerField(default=1)
     status = CharField(max_length=50, choices=StatusType.choices, default=StatusType.NEW)
     full_name = CharField(max_length=255)
-    stream = ForeignKey('apps.Stream' , SET_NULL, null=True, blank=True, default=None, related_name='orders')
+    stream = ForeignKey('apps.Stream', SET_NULL, null=True, blank=True, default=None, related_name='orders')
     phone_number = CharField(max_length=20)
     product = ForeignKey('apps.Product', CASCADE, related_name='orders')
     user = ForeignKey('apps.User', CASCADE, related_name='orders')
@@ -167,7 +166,7 @@ class Stream(BaseModel):
 
 class Comment(Model):
     message = SlugField()
-    content_type = ForeignKey(ContentType,CASCADE)
+    content_type = ForeignKey(ContentType, CASCADE)
     object_id = PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
 
@@ -180,10 +179,8 @@ class Comment(Model):
         ]
 
 
-
 class SiteSettings(Model):
     deliver_price = FloatField(default=0)
-
 
 
 """

@@ -39,6 +39,7 @@ class ProductAdmin(ModelAdmin):
     ordering = '-created_at',
     list_filter = 'quantity',
 
+
     @admin.display(empty_value="?")
     def is_exists(self, obj):
         icon_url = 'https://img.icons8.com/?size=100&id=9fp9k4lPT8us&format=png&color=000000'

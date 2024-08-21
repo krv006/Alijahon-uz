@@ -2,46 +2,20 @@
 
 
 {% block body %}
-    <div class="card">
-        <form method="post">
-
-            {% csrf_token %}
-            <div class="card-body p-4">
-                <div class="row flex-between-center">
-                    <div class="col-auto">
-                        <h3>Kirish</h3>
-                    </div>
-                </div>
-                {% if messages_error %}
-                    {% for error_message in messages_error %}
-                    	<p>{{ error_message }}</p>
-                    {% endfor %}
-                {% endif %}
-
-                <div class="mb-3">
-                    <div class="d-flex justify-content-between">
-                        <label class="form-label" for="split-login-email">
-                            Telefon nomer</label>
-                    </div>
-                    <input type="text" name="phone_number" id="phone-mask" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <div class="d-flex justify-content-between">
-                        <label class="form-label" for="split-login-password">Parol</label>
-                    </div>
-                    <input class="form-control" name="password" id="split-login-password" type="password">
-                </div>
-
-                <div class="mb-3">
-                    <button class="btn btn-primary d-block w-100 mt-3" type="submit">
-                        Kirish
-                    </button>
-                </div>
-
-            </div>
-        </form>
+    <div class="row g-2 mt-2">
+        <div class="col-sm-6">
+            <a class="btn btn-outline-google-plus btn-sm d-block w-100"
+               href="{% provider_login_url 'google' %}">
+                <span class="fab fa-google-plus-g me-2" data-fa-transform="grow-8"></span>
+                google
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a class="btn btn-outline-telegram btn-sm d-block w-100" href="#">
+                <span class="fab fa-facebook-square me-2" data-fa-transform="grow-8"></span>
+                facebook
+            </a>
+        </div>
 
     </div>
-    
-    
 {% endblock %}

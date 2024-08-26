@@ -178,7 +178,6 @@ class Comment(Model):
 class SiteSettings(Model):
     deliver_price = FloatField(default=0)
 
-
 """
 product_type = ContentType.objects.get_for_model(Product)
 comments = Comment.objects.filter(content_type__pk=product_type.id, object_id=1)
